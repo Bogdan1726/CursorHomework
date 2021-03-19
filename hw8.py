@@ -42,13 +42,6 @@ class Animal(ABC):
 
 class Predator(Animal):
 
-    def __init__(self, power: int, speed: int):
-        super().__init__(power, speed)
-        self.id = None
-        self.max_power = power
-        self.current_power = power
-        self.speed = speed
-
     def __repr__(self):
         return f'{self.__class__.__name__}'
 
@@ -65,18 +58,10 @@ class Predator(Animal):
             else:
                 print('Predator did not caught target, both are tired')
                 self.current_power = self.current_power - 0.3 * self.max_power
-                forest.animals[booty.id].current_power = forest.animals[booty.id].current_power - 0.3 * \
-                                                          forest.animals[booty.id].max_power
+                forest.animals[booty.id].current_power = booty.current_power - 0.3 * booty.max_power
 
 
 class Herbivorous(Animal):
-
-    def __init__(self, power: int, speed: int):
-        super().__init__(power, speed)
-        self.id = None
-        self.max_power = power
-        self.current_power = power
-        self.speed = speed
 
     def __repr__(self):
         return f'{self.__class__.__name__}'
