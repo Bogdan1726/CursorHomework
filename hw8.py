@@ -24,6 +24,7 @@ from abc import ABC, abstractmethod
 from typing import Dict
 from random import choice, randint
 from uuid import uuid4
+from math import ceil
 
 
 class Animal(ABC):
@@ -60,8 +61,7 @@ class Predator(Animal):
                 print('Predator eats')
                 current = self.current_power
                 self.current_power = min(self.current_power + self.max_power * 0.5, self.max_power)
-                self.current_power += self.current_power + self.max_power * 0.5
-                print(f'Predator restored {self.current_power - current} power')
+                print(f'Predator restored {ceil(self.current_power - current)} power')
             else:
                 print('Predator did not caught target, both are tired')
                 self.current_power = self.current_power - 0.3 * self.max_power
@@ -88,7 +88,7 @@ class Herbivorous(Animal):
         print('Herbivorous eats')
         current = self.current_power
         self.current_power = min(self.current_power + self.max_power * 0.5, self.max_power)
-        print(f'Herbivorous restored {self.current_power - current} power')
+        print(f'Herbivorous restored {ceil(self.current_power - current)} power')
 
 
 AnyAnimal = [Herbivorous, Predator]
