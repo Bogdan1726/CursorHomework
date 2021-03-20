@@ -11,7 +11,7 @@
 причому логи повинні записуватись у файл, тому що в консолі ви будете взаємодіяти з калькулятором,
 лог файл завжди відкриваєтсья в режимі дозапису.
 так як ви працюєте з файлом не забудьте про те що це потенційне місце поломки"""
-
+"""
 import logging
 
 log_template = '%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(pathname)s'
@@ -119,7 +119,7 @@ while True:
         print(f'Sorry, this operation is not in the list of available ones. '
               f'Choose from these - {operations}')
 
-
+"""
 """Task 2
 Напишіть клас робота пилососа
 в ініт приймається заряд батареї, заповненість сміттєбака і кількість води
@@ -139,3 +139,81 @@ while True:
 якщо вода закінчилась то пилосос тепер не миє підлогу а тільки пилососить,
 0 відсотків заряду - пилосос кричить щоб його занесли на зарядку бо сам доїхати не може)
 можете придумати ще свої ексепшини і як їх опрацьовувати """
+
+from time import sleep
+
+
+class BatteryDischarging(Exception):
+    pass
+
+
+class BatteryEmpty(Exception):
+    pass
+
+
+class NoWater(Exception):
+    pass
+
+
+class Container(Exception):
+    pass
+
+
+class RobotVacuumCleaner:
+    battery_discharge = 5
+    water_consumption = 2
+    filling_the_container = 10
+
+    def __init__(self):
+        self.battery_charge = 100
+        self.garbage_container = 0
+        self.amount_of_water = 100
+
+    def move(self):
+        while True:
+            try:
+                print(f'Robot vacuum cleaner moves \n'
+                      f'battery charge - {self.battery_charge}-%')
+                self.battery_charge -= self.battery_discharge
+                if self.battery_charge <= 20:
+                    if self.battery_charge == 0:
+                        raise BatteryEmpty
+                    raise BatteryDischarging
+            except BatteryDischarging:
+                print('The battery is discharging!!!')
+            except BatteryEmpty:
+                print(f'The battery is discharged - {self.battery_charge}-%!')
+                break
+
+            try:
+                print('Robot vacuum cleaner working')
+                self.vacuum_cleaner()
+                if self.garbage_container == 100:
+                    raise Container
+            except Container:
+                print('Garbage container is full')
+                input('Нажмите Enter чтобы очистить контейнер... ')
+                self.garbage_container = 0
+
+            try:
+                print('Robot vacuum cleaner washes')
+                self.wash()
+                if self.amount_of_water == 0:
+                    raise NoWater
+            except NoWater:
+                print('Закончилась вода')
+                break
+            sleep(1)
+
+    def wash(self):
+        self.amount_of_water -= self.water_consumption
+        print(f'water level - {self.amount_of_water}-%')
+
+    def vacuum_cleaner(self):
+        self.garbage_container += self.filling_the_container
+        print(f'Trash level in container - {self.garbage_container}-%')
+
+
+robot = RobotVacuumCleaner()
+robot.move()
+
