@@ -11,7 +11,7 @@
 причому логи повинні записуватись у файл, тому що в консолі ви будете взаємодіяти з калькулятором,
 лог файл завжди відкриваєтсья в режимі дозапису.
 так як ви працюєте з файлом не забудьте про те що це потенційне місце поломки"""
-"""
+
 import logging
 
 log_template = '%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(pathname)s'
@@ -119,7 +119,7 @@ while True:
         print(f'Sorry, this operation is not in the list of available ones. '
               f'Choose from these - {operations}')
 
-"""
+
 """Task 2
 Напишіть клас робота пилососа
 в ініт приймається заряд батареї, заповненість сміттєбака і кількість води
@@ -161,7 +161,7 @@ class Container(Exception):
 
 class RobotVacuumCleaner:
     battery_discharge = 5
-    water_consumption = 2
+    water_consumption = 8
     filling_the_container = 10
 
     def __init__(self):
@@ -170,7 +170,9 @@ class RobotVacuumCleaner:
         self.amount_of_water = 100
 
     def move(self):
+        print('Loading...')
         while True:
+            sleep(1)
             try:
                 print(f'Robot vacuum cleaner moves \n'
                       f'battery charge - {self.battery_charge}-%')
@@ -196,14 +198,13 @@ class RobotVacuumCleaner:
                 self.garbage_container = 0
 
             try:
-                print('Robot vacuum cleaner washes')
-                self.wash()
-                if self.amount_of_water == 0:
+                if self.amount_of_water > 0:
+                    print('Robot vacuum cleaner washes')
+                    self.wash()
+                else:
                     raise NoWater
             except NoWater:
-                print('Закончилась вода')
-                break
-            sleep(1)
+                print('Run out of water')
 
     def wash(self):
         self.amount_of_water -= self.water_consumption
