@@ -11,14 +11,13 @@
 причому логи повинні записуватись у файл, тому що в консолі ви будете взаємодіяти з калькулятором,
 лог файл завжди відкриваєтсья в режимі дозапису.
 так як ви працюєте з файлом не забудьте про те що це потенційне місце поломки"""
-
 import logging
 
 log_template = '%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(pathname)s'
 logging.basicConfig(level=logging.DEBUG, filename="test.log", filemode="a", format=log_template)
 
 
-operations = ['+', '-', '*', '/', '**', 'scrt', '%']
+operations = ['+', '-', '*', '/', '**', 'sqrt', '%']
 
 
 def operation(values):
@@ -91,14 +90,21 @@ def division(num1, num2):
 
 
 def exponentiation(num1, num2):
-    logging.info('Returns exponentiation')
-    return f'Result: {num1} ** {num2} = {num1 ** num2}'
+    try:
+        logging.info('Returns exponentiation')
+        return f'Result: {num1} ** {num2} = {num1 ** num2}'
+    except ZeroDivisionError:
+        logging.error('ZeroDivisionError', exc_info=True)
+        return 'You cannot divide by zero'
 
 
 def sqrt1(num):
     from math import sqrt
-    logging.info('Returns square root numbers')
-    return f'Result: {num} = {sqrt(num)}'
+    try:
+        logging.info('Returns square root numbers')
+        return f'Result: {num} = {sqrt(num)}'
+    except ValueError:
+        return 'Number cannot be negative'
 
 
 def percentage_of_the_number(percent, num2):
@@ -182,9 +188,9 @@ class RobotVacuumCleaner:
                         raise BatteryEmpty
                     raise BatteryDischarging
             except BatteryDischarging:
-                print('The battery is discharging!!!')
+                print(f'The battery is discharging - {self.battery_charge} %')
             except BatteryEmpty:
-                print(f'The battery is discharged - {self.battery_charge}-%!')
+                print(f'The battery is discharged!')
                 break
 
             try:
