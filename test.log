@@ -39,3 +39,4 @@ Traceback (most recent call last):
   File "/home/bogdan/PycharmProjects/pythonProject/CursorHomework/hw9.py", line 39, in operation
     return multiplication(int(input('enter the num1: ')), int(input('enter the num2: ')))
 ValueError: invalid literal for int() with base 10: 'j'
+2021-03-22 19:52:11,784 - root - INFO - Returns summa two numbers - /home/bogdan/PycharmProjects/pythonProject/CursorHomework/hw9.py

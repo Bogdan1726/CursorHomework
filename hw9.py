@@ -17,7 +17,7 @@ log_template = '%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(pathnam
 logging.basicConfig(level=logging.DEBUG, filename="test.log", filemode="a", format=log_template)
 
 
-operations = ['+', '-', '*', '/', '**', 'sqrt', '%']
+operations = ['+', '-', '*', '/', '**', 'sqrt', '%', 'exit']
 
 
 def operation(values):
@@ -113,7 +113,7 @@ def percentage_of_the_number(percent, num2):
 
 
 while True:
-    inputs = input(f'Operation: ')
+    inputs = input(f'{operations} Select operation: ')
     if inputs == 'exit':
         logging.info('Exit from program')
         print('Goodbye')
@@ -167,7 +167,7 @@ class Container(Exception):
 
 class RobotVacuumCleaner:
     battery_discharge = 5
-    water_consumption = 8
+    water_consumption = 10
     filling_the_container = 10
 
     def __init__(self):
@@ -181,14 +181,14 @@ class RobotVacuumCleaner:
             sleep(1)
             try:
                 print(f'Robot vacuum cleaner moves \n'
-                      f'battery charge - {self.battery_charge}-%')
+                      f'battery charge - {self.battery_charge} % \n')
                 self.battery_charge -= self.battery_discharge
                 if self.battery_charge <= 20:
                     if self.battery_charge == 0:
                         raise BatteryEmpty
                     raise BatteryDischarging
             except BatteryDischarging:
-                print(f'The battery is discharging - {self.battery_charge} %')
+                print(f'Warning! The battery is discharging - {self.battery_charge} % \n')
             except BatteryEmpty:
                 print(f'The battery is discharged!')
                 break
@@ -201,6 +201,7 @@ class RobotVacuumCleaner:
             except Container:
                 print('Garbage container is full')
                 input('Нажмите Enter чтобы очистить контейнер... ')
+                print()
                 self.garbage_container = 0
 
             try:
@@ -210,15 +211,15 @@ class RobotVacuumCleaner:
                 else:
                     raise NoWater
             except NoWater:
-                print('Run out of water')
+                print('Warning! Run out of water \n')
 
     def wash(self):
         self.amount_of_water -= self.water_consumption
-        print(f'water level - {self.amount_of_water}-%')
+        print(f'water level - {self.amount_of_water} % \n')
 
     def vacuum_cleaner(self):
         self.garbage_container += self.filling_the_container
-        print(f'Trash level in container - {self.garbage_container}-%')
+        print(f'Trash level in container - {self.garbage_container} % \n')
 
 
 robot = RobotVacuumCleaner()
