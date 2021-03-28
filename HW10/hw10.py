@@ -17,26 +17,38 @@ class Container(Exception):
     pass
 
 
+class CleaningStop(Exception):
+    pass
+
+
 class RobotVacuumCleaner:
     battery_discharge = 5
     water_consumption = 10
     filling_the_container = 10
+    cleaning_time = 5  # Number of minutes (iterations) to clean
 
-    def __init__(self):
-        self.battery_charge = 100
-        self.garbage_container = 0
-        self.amount_of_water = 100
+    def __init__(self, battery_charge, garbage_container, amount_of_water):
+        self.battery_charge = int(battery_charge)
+        self.garbage_container = int(garbage_container)
+        self.amount_of_water = int(amount_of_water)
 
     def move(self):
         print('Loading...')
-        while True:
+        while self.cleaning_time != 0:
             sleep(1)
+            try:
+                self.cleaning_time -= 1
+                if self.cleaning_time == 0:
+                    raise CleaningStop
+            except CleaningStop:
+                print('Cleaning finished')
+                break
             try:
                 print(f'Robot vacuum cleaner moves \n'
                       f'battery charge - {self.battery_charge} % \n')
                 self.battery_charge -= self.battery_discharge
                 if self.battery_charge <= 20:
-                    if self.battery_charge == 0:
+                    if self.battery_charge == 0 or self.battery_charge < 0:
                         raise BatteryEmpty
                     raise BatteryDischarging
             except BatteryDischarging:
@@ -74,5 +86,5 @@ class RobotVacuumCleaner:
         print(f'Trash level in container - {self.garbage_container} % \n')
 
 
-robot = RobotVacuumCleaner()
-robot.move()
+#robot = RobotVacuumCleaner(100, 0, 100)
+#robot.move()
