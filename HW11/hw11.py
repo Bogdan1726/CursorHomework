@@ -1,16 +1,24 @@
-
 # 1. double_result
 # This decorator function should return the result of another function multiplied by two
+
 def double_result(func):
     # return function result multiplied by two
-    pass
+    def inner(a, b):
+        print(f'Result - ({a} + {b}) * 2')
+        return func(a, b) * 2
+
+    return inner
+
+
+print(f'# 1. double_result \n')
 
 
 def add(a, b):
+    print(f'Result - {a} + {b}')
     return a + b
 
 
-add(5, 5)  # 10
+print(add(5, 5), '\n')  # 10
 
 
 @double_result
@@ -18,7 +26,7 @@ def add(a, b):
     return a + b
 
 
-add(5, 5)  # 20
+print(add(5, 5), '\n')  # 20
 
 
 # 2. only_odd_parameters
@@ -27,20 +35,37 @@ add(5, 5)  # 20
 
 def only_odd_parameters(func):
     # if args passed to func are not odd - return "Please use only odd numbers!"
-    pass
+    def inner(*args):
+        for element in args:
+            if element % 2 == 0:
+                print(f'Result - {args}')
+                return 'Please use only odd numbers!'
+        return func(*args)
+
+    return inner
+
+
+print(f'# 2. only_odd_parameters\n')
+
 
 @only_odd_parameters
 def add(a, b):
+    print(f'Result - {a} + {b}')
     return a + b
 
 
-add(5, 5)  # 10
-add(4, 4)  # "Please use only odd numbers!"
+print(add(5, 5), '\n')  # 10
+print(add(4, 4), '\n')  # "Please use only odd numbers!"
 
 
 @only_odd_parameters
 def multiply(a, b, c, d, e):
+    print(f'Result - {a} * {b} * {c} * {d} * {e}')
     return a * b * c * d * e
+
+
+print(multiply(5, 5, 5, 7, 9), '\n')
+print(multiply(5, 5, 4, 8, 2), '\n')
 
 
 # 3.* logged
@@ -48,14 +73,21 @@ def multiply(a, b, c, d, e):
 # Provide support for both positional and named arguments (your wrapper function should take both *args
 # and **kwargs and print them both):
 
+
 def logged(func):
     # log function arguments and its return value
-    pass
+    def inner(*args, **kwargs):
+        print(f'Result - {func(*args, **kwargs)}\n')
+        return func(*args, **kwargs)
+    return inner
+
+
+print(f'# 3.* logged\n')
 
 
 @logged
-def func(*args):
-    return 3 + len(args)
+def func(*args, **kwargs):
+    return 3 + len(args) + len(kwargs)
 
 
 func(4, 4, 4)
@@ -72,19 +104,31 @@ func(4, 4, 4)
 
 def type_check(correct_type):
     # put code here
-    pass
+    def decorator_type(func):
+        def inner(name):
+            if isinstance(name, correct_type):
+                return func(name)
+            else:
+                print(f'Wrong Type: {type(name)}\n')
+        return inner
+    return decorator_type
+
+
+print(f'# 4. type_check \n')
+
 
 @type_check(int)
 def times2(num):
-    return num * 2
+    return f'{num * 2}\n'
 
 
 print(times2(2))
 times2('Not A Number')  # "Wrong Type: string" should be printed, since non-int passed to decorated function
 
+
 @type_check(str)
 def first_letter(word):
-    return word[0]
+    return f'{word[0]}\n'
 
 
 print(first_letter('Hello World'))
