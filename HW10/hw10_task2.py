@@ -22,6 +22,8 @@ import string
 class UserToken:
 
     user_database = {}
+    error = [',', ':', ';', '!', '?', '/', '|', '#', '$', '%', '^', '&', '*', '-', '+', '=', '(', ')',
+             '{', '}', '[', ']', '<', '>', '`', '~', '_', '"']
 
     def __str__(self):
         print(self.generate_random_string())
@@ -30,6 +32,9 @@ class UserToken:
         try:
             if self.check_name(name) is False:
                 raise ErrorName('Invalid name')
+
+            if self.check_name2(name) is False:
+                raise ErrorName2('Invalid name')
 
             if self.check_email(email) is False:
                 raise ErrorEmail('invalid email')
@@ -69,6 +74,13 @@ class UserToken:
         return False
 
     @staticmethod
+    def check_name2(name: str):
+        for el in name:
+            if el in UserToken.error:
+                return False
+        return True
+
+    @staticmethod
     def check_email(email: str):
         for el in email:
             if 123 > ord(el) > 97 or 58 > ord(el) > 47:
@@ -78,24 +90,31 @@ class UserToken:
     @staticmethod
     def check2_email(email: str):
         count = 0
+        count1 = 0
         for el in email:
             if el == '@' or el == '.':
                 count += 1
+            if el in UserToken.error:
+                count1 += 1
         if count == 2:
-            return True
+            if count1 == 0:
+                return True
         return False
 
     @staticmethod
     def check_password(password: str):
         count = 0
         count1 = 0
-        if len(password) >= 8:
+        count3 = 0
+        if 8 <= len(password) <= 16:
             for el in password:
                 if el.isdigit() is True:
                     count += 1
                 if el.isalpha() is True:
                     count1 += 1
-        if count > 1 and count1 > 1:
+                if el.isupper() is True:
+                    count3 += 1
+        if count > 1 and count1 > 1 and count3 >= 1:
             return True
         return False
 

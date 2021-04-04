@@ -22,6 +22,10 @@ class ErrorName(Exception):
     pass
 
 
+class ErrorName2(Exception):
+    pass
+
+
 class ErrorLoginPassword(Exception):
     pass
 

@@ -28,13 +28,23 @@ class TestUserToken(unittest.TestCase):
 
     def test_register(self):
         with self.assertRaises(ErrorPassword):
-            self.user.register('Ivan', 'ivan@gmail.com', 'Zaqwerty')
+            self.user.register('Ivan', 'ivan@gmail.com', 'Zaqwert')
+            self.user.register('Ivan', 'ivan@gmail.com', 'Zaqwertyzaqwerty123')
+            self.user.register('Ivan', 'ivan@gmail.com', '123456789')
+            self.user.register('Ivan', 'ivan@gmail.com', 'zaqwerty123')
         with self.assertRaises(ErrorName):
             self.user.register('Iva', 'ivan@gmail.com', 'Zaqwerty123')
+            self.user.register('Ivanovivanivanovich', 'ivan@gmail.com', 'Zaqwerty123')
+        with self.assertRaises(ErrorName2):
+            self.user.register('Ivan/)(', 'ivan@gmail.com', 'zaqwerty123')
+            self.user.register(')(atabI4', 'ivan@gmail.com', 'Zaqwerty123')
         with self.assertRaises(ErrorEmail2):
             self.user.register('Ivan', 'ivangmail.com', 'Zaqwerty123')
+            self.user.register('Ivan', 'ivan@@gmail..com', 'Zaqwerty123')
+            self.user.register('Ivan', 'ivan@)))(((][.com', 'Zaqwerty123')
         with self.assertRaises(ErrorEmail):
             self.user.register('Ivan', '@gmail.com', 'Zaqwerty123')
+            self.user.register('Ivan', '@.com', 'Zaqwerty123')
         self.assertEqual(self.user.register('Bohdan', 'bogdan24@gmail.com', 'Zaqwerty123'), 200)
 
     def test_login_in(self):
