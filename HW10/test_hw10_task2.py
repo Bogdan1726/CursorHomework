@@ -32,9 +32,11 @@ class TestUserToken(unittest.TestCase):
         with self.assertRaises(ErrorName):
             self.user.register('Iva', 'ivan@gmail.com', 'Zaqwerty123')
         with self.assertRaises(ErrorEmail2):
-            self.user.register('Ivan', 'ivangmail.com', 'Zaqwerty123')
+            self.user.register('Ivan', 'ivan.gmail.com', 'Zaqwerty123')
         with self.assertRaises(ErrorEmail):
             self.user.register('Ivan', '@gmail.com', 'Zaqwerty123')
+        with self.assertRaises(Error):
+            self.user.register('Bohdan', 'bogdan@gmail.com', 'Zaqwerty123')
         self.assertEqual(self.user.register('Bohdan', 'bogdan24@gmail.com', 'Zaqwerty123'), 200)
 
     def test_login_in(self):

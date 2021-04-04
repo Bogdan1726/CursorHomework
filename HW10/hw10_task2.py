@@ -49,7 +49,7 @@ class UserToken:
         return 200
 
     def login_in(self, email: str, password: str):
-        if email in self.user_database and password in self.user_database.values():
+        if email in self.user_database and password == self.user_database[email]:
             return UserToken.__str__(self)
         else:
             raise ErrorLoginPassword('Invalid login or password')
@@ -78,10 +78,13 @@ class UserToken:
     @staticmethod
     def check2_email(email: str):
         count = 0
+        count1 = 0
         for el in email:
-            if el == '@' or el == '.':
+            if el == '@':
                 count += 1
-        if count == 2:
+            elif el == '.':
+                count1 += 1
+        if count - count1 == 0:
             return True
         return False
 
@@ -102,7 +105,6 @@ class UserToken:
 
 user = UserToken()
 user.register('Bohdan', 'bogdan@gmail.com', 'Zaqwerty123')
+user.register('Bobi', 'bob@gmail.com', 'Zaqwerty12345')
 print(user.user_database)
-
-
 
