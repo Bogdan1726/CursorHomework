@@ -1,3 +1,4 @@
+"""
 In the homework directory you can find the directory arg_parser_homework where you can find 2020_june_mini.csv file.
 
 1. Create a script with arguments:
@@ -16,8 +17,11 @@ file with that info
 
 Example of input:
 -exp 3 -sex female -position DevOps -city Kyiv --path_to_source_files . ...
+"""
 
 
+
+"""
 2. Create a script with arguments:
 
 source_file_path; required: true;
@@ -28,3 +32,4 @@ age; required: false; help: Age of person
 language; required: false; help; Programming language
 
 Based on this info generate a new report of average salary.
+"""
