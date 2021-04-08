@@ -19,7 +19,6 @@ Example of input:
 -exp 3 -sex female -position DevOps -city Kyiv --path_to_source_files . ...
 """
 import argparse
-import pandas as pd
 import csv
 
 parser = argparse.ArgumentParser()
@@ -59,7 +58,8 @@ with open(path, encoding='utf-8', newline='') as csv_file:
                         row["Зарплата.в.месяц"],
                         row["Изменение.зарплаты.за.12.месяцев"],
                         row["Должность"],
-                        row["exp"], row["current_job_exp"],
+                        row["exp"],
+                        row["current_job_exp"],
                         row["Язык.программирования"],
                         row["Специализация"],
                         row["Возраст"],
@@ -79,6 +79,5 @@ with open(des_path, 'w', encoding='utf-8', newline='') as csv_file:
     for el in lis:
         writer.writerow(el)
 
-
-
-
+# input
+# --exp 3 --sex female --position DevOps --city Kyiv --path 2020_june_mini.csv
