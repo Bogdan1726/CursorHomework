@@ -72,6 +72,7 @@ with open(path, encoding='utf-8', newline='') as csv_file:
                         row["Тип.компании"],
                         row["Предметная.область"]])
 
+
 with open(des_path, 'w', encoding='utf-8', newline='') as csv_file:
     writer = csv.DictWriter(csv_file, fieldnames=head)
     writer.writeheader()
