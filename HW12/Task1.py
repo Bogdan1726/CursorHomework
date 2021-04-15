@@ -46,31 +46,35 @@ with open(path, encoding='utf-8', newline='') as csv_file:
     reader = csv.DictReader(csv_file, delimiter=',')
     head = reader.fieldnames
     for row in reader:
-        if (
-                row['exp'] == args.exp
-                and row['Город'] == args.city
-                and row['Пол'] == args.sex
-                and row['Должность'] == args.position
-        ):
+        if args.exp is not None and row['exp'] != args.exp:
+            continue
+        if args.city is not None and row['Город'] != args.city:
+            continue
+        if args.sex is not None and row['Пол'] != args.sex:
+            continue
+        if args.position is not None and row['Должность'] != args.position:
+            continue
+        if args.age is not None and row['Возраст'] != args.age:
+            continue
 
-            lis.append([row["N"],
-                        row["Город"],
-                        row["Зарплата.в.месяц"],
-                        row["Изменение.зарплаты.за.12.месяцев"],
-                        row["Должность"],
-                        row["exp"],
-                        row["current_job_exp"],
-                        row["Язык.программирования"],
-                        row["Специализация"],
-                        row["Возраст"],
-                        row["Пол"],
-                        row["Образование"],
-                        row["Университет"],
-                        row["Еще.студент"],
-                        row["Уровень.английского"],
-                        row["Размер.компании"],
-                        row["Тип.компании"],
-                        row["Предметная.область"]])
+        lis.append([row["N"],
+                    row["Город"],
+                    row["Зарплата.в.месяц"],
+                    row["Изменение.зарплаты.за.12.месяцев"],
+                    row["Должность"],
+                    row["exp"],
+                    row["current_job_exp"],
+                    row["Язык.программирования"],
+                    row["Специализация"],
+                    row["Возраст"],
+                    row["Пол"],
+                    row["Образование"],
+                    row["Университет"],
+                    row["Еще.студент"],
+                    row["Уровень.английского"],
+                    row["Размер.компании"],
+                    row["Тип.компании"],
+                    row["Предметная.область"]])
 
 with open(des_path, 'w', encoding='utf-8', newline='') as csv_file:
     writer = csv.DictWriter(csv_file, fieldnames=head)
